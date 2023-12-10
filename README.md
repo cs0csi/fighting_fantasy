@@ -1,4 +1,4 @@
-```markdown
+
 # Your Game Title
 
 ## Overview
