@@ -8,7 +8,7 @@ import time
 import os
 
 
-current_story_key = "245"
+current_story_key = "339"
 
 os.system('cls')
 
@@ -44,6 +44,17 @@ def d6(d6range, ifLow, ifHigh):
         return process_result(d6result, 4, ifLow, ifHigh)
     elif d6range == "d6-15-6":
         return process_result(d6result, 5, ifLow, ifHigh)
+
+
+def check_hp(player_health, hpLevel, hp_bigger, hp_lower):
+    if player_health >= int(hpLevel):
+        print(
+            f"\nPlayer health is greater than or equal to {hpLevel}. Player health: {player_health} \n")
+        return hp_bigger
+    else:
+        print(
+            f"\nPlayer health is less than {hpLevel}. Player health: {player_health} \n")
+        return hp_lower
 
 
 def test_of_luck(player_luck, enemy, current_story_key):
@@ -611,6 +622,15 @@ while True:
             current_story_key = current_option.get("goto")
 
     if not current_story_key in stories:
+
+        if current_option.get("text") == "Check HP":
+            hpLevel = current_option.get("hp_level")
+            hp_bigger = current_option.get("hp_bigger")
+            hp_lower = current_option.get("hp_lower")
+            current_story_key = check_hp(
+                player_health, hpLevel, hp_bigger, hp_lower)
+
+            continue
 
         if current_option.get("text") == "Roll a D6 dice":
             d6range = current_option.get("d6")
