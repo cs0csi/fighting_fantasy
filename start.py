@@ -8,7 +8,7 @@ import time
 import os
 
 
-current_story_key = "339"
+current_story_key = "1"
 
 os.system('cls')
 
@@ -22,6 +22,37 @@ player_luck = character["luck"]
 
 player_car_armor = car["armor"]
 player_car_firepower = car["firepower"]
+
+
+def car_race(player_inventory, raceWin, raceLose):
+    player_score = 0
+    enemy_score = 0
+    winning_score = 24
+
+    print("Let the car race begin!")
+
+    while player_score < winning_score and enemy_score < winning_score:
+        enemy_roll = random.randint(1, 6)
+        enemy_score += enemy_roll
+        print(f"Enemy car rolled: {enemy_roll}, Total score: {enemy_score}")
+        if enemy_score >= winning_score:
+            print("Enemy car wins!")
+            time.sleep(2.4)
+            return raceLose
+        time.sleep(2.4)
+
+        player_roll = random.randint(1, 6)
+        if check_car_inventory(player_inventory, "Tuning", 1):
+            player_roll += 1
+        player_score += player_roll
+
+        print(f"Player car rolled: {player_roll}, Total score: {player_score}")
+
+        if player_score >= winning_score:
+            print("Player car wins!")
+            time.sleep(2.4)
+            return raceWin
+        time.sleep(2.4)
 
 
 def process_result(result, threshold, ifLow, ifHigh):
@@ -623,13 +654,18 @@ while True:
 
     if not current_story_key in stories:
 
+        if current_option.get("text") == "Start Race!":
+            raceWin = current_option.get("race_win")
+            raceLose = current_option.get("race_lose")
+            current_story_key = car_race(car_inventory, raceWin, raceLose)
+            continue
+
         if current_option.get("text") == "Check HP":
             hpLevel = current_option.get("hp_level")
             hp_bigger = current_option.get("hp_bigger")
             hp_lower = current_option.get("hp_lower")
             current_story_key = check_hp(
                 player_health, hpLevel, hp_bigger, hp_lower)
-
             continue
 
         if current_option.get("text") == "Roll a D6 dice":

@@ -12,7 +12,8 @@ inventory = [{"name": "Pistol", "quantity": 1, "type": "ranged_weapon", "damage"
 
 car_inventory = [{"name": "rocket", "quantity": 4, "type": "weapon"},
                  {"name": "Iron Nail Box", "quantity": 3, "type": "item"},
-                 {"name": "Oil Tank", "quantity": 2, "type": "item"}
+                 {"name": "Oil Tank", "quantity": 2, "type": "item"},
+                 {"name": "Tuning", "quantity": 1, "type": "item"}
                  ]
 
 
