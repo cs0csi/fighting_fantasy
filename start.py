@@ -8,7 +8,7 @@ import time
 import os
 
 
-current_story_key = "1"
+current_story_key = "63"
 
 os.system('cls')
 
@@ -340,7 +340,7 @@ def start_firearms_combat(selected_enemies, player_health, player_dexterity, inv
             return current_story_key
 
 
-def start_car_combat(selected_enemies, player_car_firepower, player_car_armor, car_inventory, current_story_key, temp_stat_mod_stat, temp_negative_mod_value):
+def start_car_combat(selected_enemies, player_car_firepower, player_car_armor, car_inventory, current_story_key, temp_stat_mod_stat, temp_negative_mod_value, rounds_to_survive):
 
     if temp_stat_mod_stat == "player_car_firepower":
         player_car_firepower = player_car_firepower - \
@@ -354,7 +354,14 @@ def start_car_combat(selected_enemies, player_car_firepower, player_car_armor, c
         win_story_index = enemy.get("combat_data", {}).get("if_win", "")
         lose_story_index = enemy.get("combat_data", {}).get("if_lose", "")
 
-    while player_car_armor > 0 and enemy_car_armor > 0:
+    rounds_survived = 0
+
+    # Check if rounds_to_survive is provided and not empty
+    if rounds_to_survive is not None and rounds_to_survive.strip():
+        rounds_to_survive = int(rounds_to_survive)
+    else:
+        rounds_to_survive = 0  # Set a default value if not provided
+    while player_car_armor > 0 and enemy_car_armor > 0 and (rounds_to_survive == 0 or rounds_survived < rounds_to_survive):
         defeated_enemies = []
 
    # Player selects which enemy to attack
@@ -380,6 +387,8 @@ def start_car_combat(selected_enemies, player_car_firepower, player_car_armor, c
 
             player_attack_power = random.randint(2, 12) + player_car_firepower
             enemy_attack_power = random.randint(2, 12) + enemy_car_firepower
+
+            rounds_survived += 1
 
             rocket_used = False
             rocket_index = None
@@ -441,6 +450,12 @@ def start_car_combat(selected_enemies, player_car_firepower, player_car_armor, c
                 print(f"You were defeated by the {
                       target_enemy['name']}. Game over! \n")
                 current_story_key = lose_story_index
+                return current_story_key
+
+            elif rounds_survived >= rounds_to_survive:
+                print(f"Congratulations! You survived {
+                      rounds_to_survive} rounds!")
+                current_story_key = win_story_index
                 return current_story_key
 
 
@@ -700,9 +715,10 @@ while True:
             temp_stat_mod_stat = current_option.get("temp_stat_mod_stat")
             temp_negative_mod_value = current_option.get(
                 "temp_negative_mod_value")
+            rounds_to_survive = current_option.get("rounds_to_survive")
             selected_enemies = select_enemies(enemies, *enemy_names)
             current_story_key = start_car_combat(
-                selected_enemies, player_car_firepower, player_car_armor, car_inventory, current_story_key, temp_stat_mod_stat, temp_negative_mod_value)
+                selected_enemies, player_car_firepower, player_car_armor, car_inventory, current_story_key, temp_stat_mod_stat, temp_negative_mod_value, rounds_to_survive)
             continue
 
         if current_option.get("combat_type") == "luck":
