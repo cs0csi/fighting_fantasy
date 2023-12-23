@@ -8,7 +8,7 @@ import time
 import os
 
 
-current_story_key = "63"
+current_story_key = "1"
 
 os.system('cls')
 
@@ -22,6 +22,17 @@ player_luck = character["luck"]
 
 player_car_armor = car["armor"]
 player_car_firepower = car["firepower"]
+
+
+def duel(player_dexterity, duelWin, duelLose):
+    roll = (random.randint(1, 6)) + 7
+    print(f"Rolled: {roll}")
+    if roll >= player_dexterity:
+        print("The player win the Duel")
+        return duelWin
+    if roll < player_dexterity:
+        print("Player lost the Duel")
+        return duelLose
 
 
 def car_race(player_inventory, raceWin, raceLose):
@@ -668,6 +679,12 @@ while True:
             current_story_key = current_option.get("goto")
 
     if not current_story_key in stories:
+
+        if current_option.get("text") == "Duel!":
+            duelWin = current_option.get("duel_win")
+            duelLose = current_option.get("duel_lose")
+            current_story_key = duel(player_dexterity, duelWin, duelLose)
+            continue
 
         if current_option.get("text") == "Start Race!":
             raceWin = current_option.get("race_win")
