@@ -108,12 +108,12 @@ def test_of_luck(player_luck, enemy, current_story_key):
         print("You got lucky!")
         player_luck -= 1
         current_story_key = win_story_index
-        return current_story_key
+        return current_story_key, player_luck
     else:
         print("No luck this time.")
         player_luck -= 1
         current_story_key = lose_story_index
-        return current_story_key
+        return current_story_key, player_luck
 
 
 def test_of_luck_without_minus(player_luck, enemy, current_story_key):
@@ -172,7 +172,7 @@ def start_close_combat(selected_enemies, player_health, player_dexterity, invent
         while not target_enemy:
             for index, enemy in enumerate(selected_enemies):
                 print(
-                    f"{index + 1}: {enemy['name']}s Health: {enemy['health']}, Dexterity: {enemy['dexterity']}")
+                    f"{index + 1}: {enemy['name']}'s Health: {enemy['health']}, Dexterity: {enemy['dexterity']}")
             if len(selected_enemies) == 1:
                 target_enemy = selected_enemies[0]
             else:
@@ -229,7 +229,7 @@ def start_close_combat(selected_enemies, player_health, player_dexterity, invent
                     int(temp_negative_mod_value)
                 print(f"Player dextirity is again: {player_dexterity}")
             current_story_key = win_story_index
-            return current_story_key
+            return current_story_key, player_health
 
         elif player_health <= 0:
             if temp_stat_mod_stat == "player_dexterity":
@@ -237,7 +237,7 @@ def start_close_combat(selected_enemies, player_health, player_dexterity, invent
                     int(temp_negative_mod_value)
             print(f"You were defeated by the {enemy_name}. Game over!")
             current_story_key = lose_story_index
-            return current_story_key
+            return current_story_key, player_health
 
 
 def start_firearms_combat(selected_enemies, player_health, player_dexterity, inventory, current_story_key, temp_stat_mod_stat, temp_negative_mod_value):
@@ -245,7 +245,6 @@ def start_firearms_combat(selected_enemies, player_health, player_dexterity, inv
     if temp_stat_mod_stat == "player_dexterity":
         player_dexterity = player_dexterity - int(temp_negative_mod_value)
         print(f"For the battle the player dextirity is: {player_dexterity}")
-
     for enemy in selected_enemies:
         enemy_name = enemy["name"]
         enemy_health = enemy["health"]
@@ -253,6 +252,7 @@ def start_firearms_combat(selected_enemies, player_health, player_dexterity, inv
         enemy_weapon_damage = enemy.get("weapon_damage", 1)
         win_story_index = enemy.get("combat_data", {}).get("if_win", "")
         lose_story_index = enemy.get("combat_data", {}).get("if_lose", "")
+
    # Determine ranged weapon
     ranged_weapons = []
     for item in inventory:
@@ -318,6 +318,9 @@ def start_firearms_combat(selected_enemies, player_health, player_dexterity, inv
             print(
                 f"The {enemy_name} fires and hits you for {enemy_damage} damage!")
             player_health -= enemy_damage
+            print(f"your dexterity was {player_dexterity}")
+            player_dexterity -= 1
+            print(f"your dexterity is now {player_dexterity}")
         else:
             print("Both combatants aim with equal accuracy!")
             time.sleep(2.4)
@@ -334,21 +337,21 @@ def start_firearms_combat(selected_enemies, player_health, player_dexterity, inv
 
         if len(selected_enemies) == 0:
             print("Congratulations! You defeated all enemies!")
-
+            print(f"your dexterity is now {player_dexterity}")
             if temp_stat_mod_stat == "player_dexterity":
                 player_dexterity = player_dexterity + \
                     int(temp_negative_mod_value)
                 print(f"Player dextirity is again: {player_dexterity}")
             current_story_key = win_story_index
-            return current_story_key
+            return current_story_key, player_health, player_dexterity
 
-        elif player_health <= 0:
+        elif player_health <= 0 or player_dexterity <= 0:
             if temp_stat_mod_stat == "player_dexterity":
                 player_dexterity = player_dexterity + \
                     int(temp_negative_mod_value)
             print(f"You were defeated by the {enemy_name}. Game over!")
             current_story_key = lose_story_index
-            return current_story_key
+            return current_story_key, player_health, player_dexterity
 
 
 def start_car_combat(selected_enemies, player_car_firepower, player_car_armor, car_inventory, current_story_key, temp_stat_mod_stat, temp_negative_mod_value, rounds_to_survive):
@@ -455,19 +458,19 @@ def start_car_combat(selected_enemies, player_car_firepower, player_car_armor, c
                           player_car_firepower}")
 
                 current_story_key = win_story_index
-                return current_story_key
+                return current_story_key, player_car_armor
 
             elif player_car_armor <= 0:
                 print(f"You were defeated by the {
                       target_enemy['name']}. Game over! \n")
                 current_story_key = lose_story_index
-                return current_story_key
+                return current_story_key, player_car_armor
 
             elif rounds_survived >= rounds_to_survive:
                 print(f"Congratulations! You survived {
                       rounds_to_survive} rounds!")
                 current_story_key = win_story_index
-                return current_story_key
+                return current_story_key, player_car_armor
 
 
 def modify_inventory(inventory, item_name, action, quantity, item_type):
@@ -520,10 +523,12 @@ def check_car_inventory(car_inventory, item_name, quantity):
 
 def select_enemies(enemies, *enemy_names):
     selected_enemies = []
-    for enemy_name in enemy_names:
-        enemy = enemies.get(enemy_name)
-        if enemy:
-            selected_enemies.append(enemy)
+    for enemy_names_str in enemy_names:
+        enemy_name_list = enemy_names_str.split(',')
+        for enemy_name in enemy_name_list:
+            enemy = enemies.get(enemy_name)
+            if enemy:
+                selected_enemies.append(enemy)
     return selected_enemies
 
 
@@ -713,7 +718,7 @@ while True:
             temp_negative_mod_value = current_option.get(
                 "temp_negative_mod_value")
             selected_enemies = select_enemies(enemies, *enemy_names)
-            current_story_key = start_close_combat(
+            current_story_key, player_health = start_close_combat(
                 selected_enemies, player_health, player_dexterity, inventory, current_story_key, temp_stat_mod_stat, temp_negative_mod_value)
             continue
 
@@ -723,7 +728,7 @@ while True:
             temp_negative_mod_value = current_option.get(
                 "temp_negative_mod_value")
             selected_enemies = select_enemies(enemies, *enemy_names)
-            current_story_key = start_firearms_combat(
+            current_story_key, player_health, player_dexterity = start_firearms_combat(
                 selected_enemies, player_health, player_dexterity, inventory, current_story_key, temp_stat_mod_stat, temp_negative_mod_value)
             continue
 
@@ -734,7 +739,7 @@ while True:
                 "temp_negative_mod_value")
             rounds_to_survive = current_option.get("rounds_to_survive")
             selected_enemies = select_enemies(enemies, *enemy_names)
-            current_story_key = start_car_combat(
+            current_story_key, player_car_armor = start_car_combat(
                 selected_enemies, player_car_firepower, player_car_armor, car_inventory, current_story_key, temp_stat_mod_stat, temp_negative_mod_value, rounds_to_survive)
             continue
 
@@ -742,7 +747,7 @@ while True:
             enemy_name = current_option.get("enemy_name", "")
             enemy = enemies.get(enemy_name)
             if enemy:
-                current_story_key = test_of_luck(
+                current_story_key, player_luck = test_of_luck(
                     player_luck, enemy, current_story_key)
             continue
 
