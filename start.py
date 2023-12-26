@@ -8,7 +8,7 @@ import time
 import os
 
 
-current_story_key = "21"
+current_story_key = "1"
 
 os.system('cls')
 
