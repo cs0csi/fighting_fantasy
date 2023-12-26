@@ -8,7 +8,7 @@ import time
 import os
 
 
-current_story_key = "1"
+current_story_key = "21"
 
 os.system('cls')
 
@@ -673,15 +673,6 @@ while True:
             dontGoTo = True
 
     # property modification
-
-    if current_option.get("property_modification"):
-        prop_modification = current_option.get("property_modification")
-        prop_value = current_option.get("modification_value")
-        modify_prop(prop_modification, prop_value)
-    else:
-        if dontGoTo == False:
-
-            current_story_key = current_option.get("goto")
 
     if not current_story_key in stories:
 
