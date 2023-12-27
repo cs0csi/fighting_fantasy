@@ -8,7 +8,7 @@ import time
 import os
 
 
-current_story_key = "1"
+current_story_key = "40"
 
 os.system('cls')
 
@@ -33,6 +33,15 @@ def duel(player_dexterity, duelWin, duelLose):
     if roll < player_dexterity:
         print("Player lost the Duel")
         return duelLose
+
+
+def dex_compare(player_dexterity, enemy_dex, ifLow, ifHigh):
+    if player_dexterity >= int(enemy_dex):
+        print("The player has a higher value of dexterity.")
+        return ifHigh
+    else:
+        print("The player has a lower dexterity value.")
+        return ifLow
 
 
 def car_race(player_inventory, raceWin, raceLose):
@@ -680,6 +689,14 @@ while True:
             duelWin = current_option.get("duel_win")
             duelLose = current_option.get("duel_lose")
             current_story_key = duel(player_dexterity, duelWin, duelLose)
+            continue
+
+        if current_option.get("text") == "Compare Dexterity":
+            enemy_dex = current_option.get("enemydex")
+            ifLow = current_option.get("iflow")
+            ifHigh = current_option.get("ifhigh")
+            current_story_key = dex_compare(
+                player_dexterity, enemy_dex, ifLow, ifHigh)
             continue
 
         if current_option.get("text") == "Start Race!":
