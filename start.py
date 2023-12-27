@@ -8,7 +8,7 @@ import time
 import os
 
 
-current_story_key = "40"
+current_story_key = "30"
 
 os.system('cls')
 
@@ -37,6 +37,18 @@ def duel(player_dexterity, duelWin, duelLose):
 
 def dex_compare(player_dexterity, enemy_dex, ifLow, ifHigh):
     if player_dexterity >= int(enemy_dex):
+        print("The player has a higher value of dexterity.")
+        return ifHigh
+    else:
+        print("The player has a lower dexterity value.")
+        return ifLow
+
+
+def test_of_dexterity_diffrent(player_dexterity, enemy_dex, ifLow, ifHigh):
+    enemy_roll = (random.randint(1, 6) + int(enemy_dex))
+    player_roll = (random.randint(1, 6) + player_dexterity)
+
+    if player_roll >= enemy_roll:
         print("The player has a higher value of dexterity.")
         return ifHigh
     else:
@@ -696,6 +708,14 @@ while True:
             ifLow = current_option.get("iflow")
             ifHigh = current_option.get("ifhigh")
             current_story_key = dex_compare(
+                player_dexterity, enemy_dex, ifLow, ifHigh)
+            continue
+
+        if current_option.get("text") == "Compare your Dexterity":
+            enemy_dex = current_option.get("enemydex")
+            ifLow = current_option.get("iflow")
+            ifHigh = current_option.get("ifhigh")
+            current_story_key = test_of_dexterity_diffrent(
                 player_dexterity, enemy_dex, ifLow, ifHigh)
             continue
 
