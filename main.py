@@ -47,7 +47,8 @@ def run_game(current_story_key, player_health, player_dexterity, player_luck, pl
             if prop_value == "-2D6":
                 twod6 = random.randint(2, 12)
                 prop_value = prop_value[0] + str(twod6)
-            modify_prop(prop_modification, prop_value)
+            modify_prop(prop_modification, prop_value, player_health,
+                        player_dexterity, player_luck, player_car_armor, player_car_firepower)
         if "st_modify_inventory" in current_story:
             if not current_story.get('inventory_modified', False):
                 current_story['inventory_modified'] = True

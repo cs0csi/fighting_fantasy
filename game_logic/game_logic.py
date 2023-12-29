@@ -117,8 +117,7 @@ def select_enemies(enemies, *enemy_names):
     return selected_enemies
 
 
-def modify_prop(prop_modification, prop_value):
-    global player_health, player_dexterity, player_luck, player_car_armor, player_car_firepower
+def modify_prop(prop_modification, prop_value, player_health, player_dexterity, player_luck, player_car_armor, player_car_firepower):
 
     if prop_modification == 'player_health':
         if prop_value.startswith('+'):
