@@ -1,10 +1,11 @@
 # player inventory
 
-inventory = [{"name": "Pistol", "quantity": 1, "type": "ranged_weapon", "damage": 18},
+inventory = [{"name": "Pistol", "quantity": 1, "type": "ranged_weapon", "damage": 1},
              {"name": "Uzi", "quantity": 1, "type": "ranged_weapon", "damage": 5},
              {"name": "Medicine package", "quantity": 11, "type": "consumable"},
              {"name": "Kés", "quantity": 1, "type": "weapon", "damage": 20},
-             {"name": "Hitel", "quantity": 2000, "type": "money"}
+             {"name": "Hitel", "quantity": 2000, "type": "money"},
+             {"name": "No Bite", "quantity": 1, "type": "etc"}
              ]
 
 
