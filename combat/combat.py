@@ -1,11 +1,11 @@
 import random
 import time
 from inventory.inventory import check_car_inventory
-from player_inventory import *
-from stories import *
-from player_inventory import *
-from character_create import *
-from car_create import *
+from player_inventory import inventory, car_inventory, fuel_level
+from stories import enemies, stories
+from player_inventory import fuel_level, car_inventory, inventory
+from character_create import create_character
+from car_create import create_car
 from enemies import enemies
 
 

@@ -1,8 +1,8 @@
 import random
-from stories import *
-from player_inventory import *
-from character_create import *
-from car_create import *
+from stories import stories, enemies
+from player_inventory import inventory, fuel_level, car_inventory, show_inventory
+from character_create import create_character
+from car_create import create_car
 from enemies import enemies
 from inventory.inventory import check_car_inventory, modify_inventory, check_inventory, show_inventory
 from combat.combat import start_car_combat, start_firearms_combat, start_close_combat, duel, car_race

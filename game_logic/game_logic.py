@@ -1,8 +1,8 @@
 import random
-from stories import *
-from player_inventory import *
-from character_create import *
-from car_create import *
+from stories import enemies, stories
+from player_inventory import show_inventory, car_inventory, fuel_level, inventory
+from character_create import create_character
+from car_create import create_car
 
 
 def dex_compare(player_dexterity, enemy_dex, ifLow, ifHigh):
