@@ -265,7 +265,7 @@ def start_car_combat(selected_enemies, player_car_firepower, player_car_armor, c
         player_car_firepower = player_car_firepower - \
             int(temp_negative_mod_value)
         print(f"For the battle the {temp_stat_mod_stat} is: {
-              player_car_firepower}")
+            player_car_firepower}")
 
     for enemy in selected_enemies:
         enemy_car_firepower = enemy["car_firepower"]
@@ -283,7 +283,7 @@ def start_car_combat(selected_enemies, player_car_firepower, player_car_armor, c
     while player_car_armor > 0 and enemy_car_armor > 0 and (rounds_to_survive == 0 or rounds_survived < rounds_to_survive):
         defeated_enemies = []
 
-   # Player selects which enemy to attack
+        # Player selects which enemy to attack
         target_enemy = None
         while not target_enemy:
             print(f"Your armor: {player_car_armor}")
@@ -360,19 +360,19 @@ def start_car_combat(selected_enemies, player_car_firepower, player_car_armor, c
                     player_car_firepower = player_car_firepower + \
                         int(temp_negative_mod_value)
                     print(f"The {temp_stat_mod_stat} is again: {
-                          player_car_firepower}")
+                        player_car_firepower}")
 
                 current_story_key = win_story_index
                 return current_story_key, player_car_armor
 
             elif player_car_armor <= 0:
                 print(f"You were defeated by the {
-                      target_enemy['name']}. Game over! \n")
+                    target_enemy['name']}. Game over! \n")
                 current_story_key = lose_story_index
                 return current_story_key, player_car_armor
 
-            elif rounds_survived >= rounds_to_survive:
+            elif (rounds_to_survive != 0) and (rounds_survived >= rounds_to_survive):
                 print(f"Congratulations! You survived {
-                      rounds_to_survive} rounds!")
+                    rounds_to_survive} rounds!")
                 current_story_key = win_story_index
                 return current_story_key, player_car_armor

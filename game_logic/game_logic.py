@@ -14,7 +14,7 @@ def dex_compare(player_dexterity, enemy_dex, ifLow, ifHigh):
         return ifLow
 
 
-def test_of_dexterity_diffrent(player_dexterity, enemy_dex, ifLow, ifHigh):
+def test_of_dexterity_different(player_dexterity, enemy_dex, ifLow, ifHigh):
     enemy_roll = (random.randint(1, 6) + int(enemy_dex))
     player_roll = (random.randint(1, 6) + player_dexterity)
 

@@ -6,7 +6,7 @@ from car_create import create_car
 from enemies import enemies
 from inventory.inventory import check_car_inventory, modify_inventory, check_inventory, show_inventory
 from combat.combat import start_car_combat, start_firearms_combat, start_close_combat, duel, car_race
-from game_logic.game_logic import modify_prop, select_enemies, test_of_dexterity, test_of_luck_without_minus, test_of_luck, check_hp, d6, test_of_dexterity_diffrent, dex_compare
+from game_logic.game_logic import modify_prop, select_enemies, test_of_dexterity, test_of_luck_without_minus, test_of_luck, check_hp, d6, test_of_dexterity_different, dex_compare
 import os
 
 
@@ -155,7 +155,7 @@ def run_game(current_story_key, player_health, player_dexterity, player_luck, pl
                 enemy_dex = current_option.get("enemydex")
                 ifLow = current_option.get("iflow")
                 ifHigh = current_option.get("ifhigh")
-                current_story_key = test_of_dexterity_diffrent(
+                current_story_key = test_of_dexterity_different(
                     player_dexterity, enemy_dex, ifLow, ifHigh)
                 continue
 
