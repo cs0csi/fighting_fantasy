@@ -8,6 +8,8 @@ from character_create import create_character
 from car_create import create_car
 from enemies import enemies
 
+combat_wait_time = 2.4
+
 
 def duel(player_dexterity, duelWin, duelLose):
     roll = (random.randint(1, 6)) + 7
@@ -33,9 +35,9 @@ def car_race(player_inventory, raceWin, raceLose):
         print(f"Enemy car rolled: {enemy_roll}, Total score: {enemy_score}")
         if enemy_score >= winning_score:
             print("Enemy car wins!")
-            time.sleep(2.4)
+            time.sleep(combat_wait_time)
             return raceLose
-        time.sleep(2.4)
+        time.sleep(combat_wait_time)
 
         player_roll = random.randint(1, 6)
         if check_car_inventory(player_inventory, "Tuning", 1):
@@ -46,9 +48,9 @@ def car_race(player_inventory, raceWin, raceLose):
 
         if player_score >= winning_score:
             print("Player car wins!")
-            time.sleep(2.4)
+            time.sleep(combat_wait_time)
             return raceWin
-        time.sleep(2.4)
+        time.sleep(combat_wait_time)
 
 
 def start_close_combat(selected_enemies, player_health, player_dexterity, inventory, current_story_key, temp_stat_mod_stat, temp_negative_mod_value):
@@ -57,7 +59,7 @@ def start_close_combat(selected_enemies, player_health, player_dexterity, invent
     """
     if temp_stat_mod_stat == "player_dexterity":
         player_dexterity = player_dexterity - int(temp_negative_mod_value)
-        print(f"For the battle the player dextirity is: {player_dexterity}")
+        print(f"For the battle the player dexterity is: {player_dexterity}")
 
     for enemy in selected_enemies:
         enemy_name = enemy["name"]
@@ -92,18 +94,18 @@ def start_close_combat(selected_enemies, player_health, player_dexterity, invent
                 except ValueError:
                     print("Invalid selection. Please try again.")
         if player_attack_power > enemy_attack_power:
-            player_weapon_damage = 1
-            for item in inventory:
-                if item["type"] == "weapon":
-                    player_weapon_damage = item.get("damage", 1)
-                    break
+            if enemy_weapon_damage == 2:
+                player_weapon_damage = 2
+            else:
+                player_weapon_damage = 1
             player_damage = max(player_weapon_damage, 1)
             print(f"You deal {player_damage} damage to the {
                   target_enemy['name']}!")
             target_enemy['health'] -= player_damage
-            time.sleep(2.4)
+            time.sleep(combat_wait_time)
         elif enemy_attack_power > player_attack_power:
-            enemy_weapon_damage = 1
+            if enemy_weapon_damage is None:
+                enemy_weapon_damage = 1
             for item in enemy.get("inventory", []):
                 if item["type"] == "weapon":
                     enemy_weapon_damage = item.get("damage", 1)
@@ -112,9 +114,10 @@ def start_close_combat(selected_enemies, player_health, player_dexterity, invent
             print(f"The {target_enemy['name']} deals {
                   enemy_damage} damage to you!")
             player_health -= enemy_damage
+            time.sleep(combat_wait_time)
         else:
             print("Both combatants attack with equal power!")
-            time.sleep(2.4)
+            time.sleep(combat_wait_time)
 
  # Check if any selected_enemies have been defeated
         defeated_enemies = []
@@ -122,7 +125,7 @@ def start_close_combat(selected_enemies, player_health, player_dexterity, invent
             if enemy['health'] <= 0:
                 defeated_enemies.append(enemy)
                 print(f"You defeated the {enemy['name']}!")
-                time.sleep(2.4)
+                time.sleep(combat_wait_time)
         for defeated_enemy in defeated_enemies:
             selected_enemies.remove(defeated_enemy)
 
@@ -132,7 +135,7 @@ def start_close_combat(selected_enemies, player_health, player_dexterity, invent
             if temp_stat_mod_stat == "player_dexterity":
                 player_dexterity = player_dexterity + \
                     int(temp_negative_mod_value)
-                print(f"Player dextirity is again: {player_dexterity}")
+                print(f"Player dexterity is again: {player_dexterity}")
             current_story_key = win_story_index
             return current_story_key, player_health
 
@@ -149,7 +152,7 @@ def start_firearms_combat(selected_enemies, player_health, player_dexterity, inv
 
     if temp_stat_mod_stat == "player_dexterity":
         player_dexterity = player_dexterity - int(temp_negative_mod_value)
-        print(f"For the battle the player dextirity is: {player_dexterity}")
+        print(f"For the battle the player dexterity is: {player_dexterity}")
     for enemy in selected_enemies:
         enemy_name = enemy["name"]
         enemy_health = enemy["health"]
@@ -211,13 +214,13 @@ def start_firearms_combat(selected_enemies, player_health, player_dexterity, inv
                         print("Invalid selection. Please try again.")
                 except ValueError:
                     print("Invalid selection. Please try again.")
-        time.sleep(2.4)
+        time.sleep(combat_wait_time)
         if player_attack_power > enemy_attack_power:
             player_damage = ranged_weapon.get("damage", 1)
             print(
                 f"You hit the {target_enemy['name']} for {player_damage} damage!")
             target_enemy['health'] -= player_damage
-            time.sleep(2.4)
+            time.sleep(combat_wait_time)
         elif enemy_attack_power > player_attack_power:
             enemy_damage = max(enemy_weapon_damage, 1)
             print(
@@ -228,7 +231,7 @@ def start_firearms_combat(selected_enemies, player_health, player_dexterity, inv
             print(f"your dexterity is now {player_dexterity}")
         else:
             print("Both combatants aim with equal accuracy!")
-            time.sleep(2.4)
+            time.sleep(combat_wait_time)
 
         # Check if any selected_enemies have been defeated
         defeated_enemies = []
@@ -236,7 +239,7 @@ def start_firearms_combat(selected_enemies, player_health, player_dexterity, inv
             if enemy['health'] <= 0:
                 defeated_enemies.append(enemy)
                 print(f"You defeated the {enemy['name']}!")
-                time.sleep(2.4)
+                time.sleep(combat_wait_time)
         for defeated_enemy in defeated_enemies:
             selected_enemies.remove(defeated_enemy)
 
@@ -327,7 +330,7 @@ def start_car_combat(selected_enemies, player_car_firepower, player_car_armor, c
                           car_inventory[rocket_index]["quantity"], "rockets left in your inventory.")
                     target_enemy['car_armor'] = 0
                     rocket_used = True
-                    time.sleep(2.4)
+                    time.sleep(combat_wait_time)
 
             if rocket_used == False:
                 if player_attack_power > enemy_attack_power:
@@ -335,7 +338,7 @@ def start_car_combat(selected_enemies, player_car_firepower, player_car_armor, c
                     print(
                         f"You deal {player_damage} damage to the {target_enemy['name']}!")
                     target_enemy['car_armor'] -= player_damage
-                    time.sleep(2.4)
+                    time.sleep(combat_wait_time)
                 elif enemy_attack_power > player_attack_power:
                     enemy_damage = random.randint(1, 6)
                     print(
@@ -343,13 +346,13 @@ def start_car_combat(selected_enemies, player_car_firepower, player_car_armor, c
                     player_car_armor -= enemy_damage
                 else:
                     print("Both cars attack with equal power!")
-                    time.sleep(2.4)
+                    time.sleep(combat_wait_time)
 
             for enemy in selected_enemies:
                 if enemy['car_armor'] <= 0:
                     defeated_enemies.append(enemy)
                     print(f"You defeated the {target_enemy['name']}!")
-                    time.sleep(2.4)
+                    time.sleep(combat_wait_time)
             for defeated_enemy in defeated_enemies:
                 selected_enemies.remove(defeated_enemy)
 
