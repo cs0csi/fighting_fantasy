@@ -1,9 +1,25 @@
 import random
-from stories import stories, enemies
+import sys
+
+# Try importing stories
+try:
+    from stories import stories
+except ModuleNotFoundError as e:
+    print(f"Error: {e}")
+    sys.exit(
+        "Required module 'stories' not found. Please ensure it is installed and accessible.")
+
+# Try importing enemies
+try:
+    from enemies import enemies
+except ModuleNotFoundError as e:
+    print(f"Error: {e}")
+    sys.exit(
+        "Required module 'enemies' not found. Please ensure it is installed and accessible.")
+
 from player_inventory import inventory, fuel_level, car_inventory, show_inventory
 from character_create import create_character
 from car_create import create_car
-from enemies import enemies
 from inventory.inventory import check_car_inventory, modify_inventory, check_inventory, show_inventory
 from combat.combat import start_car_combat, start_firearms_combat, start_close_combat, duel, car_race
 from game_logic.game_logic import modify_prop, select_enemies, test_of_dexterity, test_of_luck_without_minus, test_of_luck, check_hp, d6, test_of_dexterity_different, dex_compare
