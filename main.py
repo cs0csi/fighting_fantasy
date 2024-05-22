@@ -28,8 +28,6 @@ import os
 
 current_story_key = "1"
 
-os.system('cls')
-
 character = create_character()
 car = create_car()
 
