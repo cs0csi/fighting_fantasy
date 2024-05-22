@@ -2,3 +2,5 @@ TODO.py
 enemies.py
 stories.py
 map.jpg
+/__pycache__
+tele.py

@@ -18,7 +18,7 @@ Describe how someone can get a copy of your game and run it locally. Include any
 ```bash
 git clone https://github.com/cs0csi/fighting_fantasy
 cd your-game
-python start.py
+python main.py
 ```
 
 ## Game Features
