@@ -52,6 +52,13 @@ else:
     raise KeyError(
         "The 'settings' section is missing in the configuration file.")
 
+
+async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE, parameter_text: str) -> None:
+    """Echo the user message."""
+    await update.message.reply_text(parameter_text)
+
+await echo(update, context, "This is the parameter text")
+
 # Define the bot commands and handlers
 current_story_key = "2"
 current_story = stories[current_story_key]
@@ -123,9 +130,16 @@ if __name__ == '__main__':
     app = Application.builder().token(TOKEN).build()
 
     # Adding command handlers
-    app.add_handler(CommandHandler('start', start_command))
+   # app.add_handler(CommandHandler('start', start))
     app.add_handler(CommandHandler('help', help_command))
     app.add_handler(CommandHandler('custom', custom_command))
+
+   async def echo_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+        await echo(update, context, "This is the parameter text")
+
+    # Add the handler to the application
+    echo_handler = CommandHandler('echo', echo_command)
+    app.add_handler(echo_handler)
 
     # Adding message handler
     app.add_handler(MessageHandler(filters.TEXT, handle_message))
