@@ -341,6 +341,7 @@ def start_car_combat(selected_enemies, player_car_firepower, player_car_armor, c
                     time.sleep(combat_wait_time)
                 elif enemy_attack_power > player_attack_power:
                     enemy_damage = random.randint(1, 6)
+                    time.sleep(combat_wait_time)
                     print(
                         f"The {target_enemy['name']} deals {enemy_damage} damage to your car!")
                     player_car_armor -= enemy_damage

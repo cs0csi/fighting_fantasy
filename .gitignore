@@ -4,4 +4,5 @@ stories.py
 map.jpg
 telegram_config.ini
 /__pycache__
+/combat/__pycache__
 tele.py
