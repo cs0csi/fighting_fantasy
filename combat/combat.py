@@ -99,8 +99,7 @@ def start_close_combat(selected_enemies, player_health, player_dexterity, invent
             else:
                 player_weapon_damage = 1
             player_damage = max(player_weapon_damage, 1)
-            print(f"You deal {player_damage} damage to the {
-                  target_enemy['name']}!")
+            print(f"You deal {player_damage} damage to the {target_enemy['name']}!")
             target_enemy['health'] -= player_damage
             time.sleep(combat_wait_time)
         elif enemy_attack_power > player_attack_power:
@@ -111,8 +110,7 @@ def start_close_combat(selected_enemies, player_health, player_dexterity, invent
                     enemy_weapon_damage = item.get("damage", 1)
                     break
             enemy_damage = max(enemy_weapon_damage, 1)
-            print(f"The {target_enemy['name']} deals {
-                  enemy_damage} damage to you!")
+            print(f"The {target_enemy['name']} deals {enemy_damage} damage to you!")
             player_health -= enemy_damage
             time.sleep(combat_wait_time)
         else:
@@ -267,8 +265,7 @@ def start_car_combat(selected_enemies, player_car_firepower, player_car_armor, c
     if temp_stat_mod_stat == "player_car_firepower":
         player_car_firepower = player_car_firepower - \
             int(temp_negative_mod_value)
-        print(f"For the battle the {temp_stat_mod_stat} is: {
-            player_car_firepower}")
+        print(f"For the battle the {temp_stat_mod_stat} is: {player_car_firepower}")
 
     for enemy in selected_enemies:
         enemy_car_firepower = enemy["car_firepower"]
@@ -363,20 +360,17 @@ def start_car_combat(selected_enemies, player_car_firepower, player_car_armor, c
                 if temp_stat_mod_stat == "player_car_firepower":
                     player_car_firepower = player_car_firepower + \
                         int(temp_negative_mod_value)
-                    print(f"The {temp_stat_mod_stat} is again: {
-                        player_car_firepower}")
+                    print(f"The {temp_stat_mod_stat} is again: {player_car_firepower}")
 
                 current_story_key = win_story_index
                 return current_story_key, player_car_armor
 
             elif player_car_armor <= 0:
-                print(f"You were defeated by the {
-                    target_enemy['name']}. Game over! \n")
+                print(f"You were defeated by the {arget_enemy['name']}. Game over! \n")
                 current_story_key = lose_story_index
                 return current_story_key, player_car_armor
 
             elif (rounds_to_survive != 0) and (rounds_survived >= rounds_to_survive):
-                print(f"Congratulations! You survived {
-                    rounds_to_survive} rounds!")
+                print(f"Congratulations! You survived {rounds_to_survive} rounds!")
                 current_story_key = win_story_index
                 return current_story_key, player_car_armor

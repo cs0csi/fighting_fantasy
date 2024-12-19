@@ -76,11 +76,9 @@ def run_game(current_story_key, player_health, player_dexterity, player_luck, pl
                     inv_type = item_modifier['inv_type']
 
                     if inv_type == "player_inv":
-                        modify_inventory(inventory, item_name,
-                                         action, quantity, item_type)
+                        modify_inventory(inventory, item_name, action, quantity, item_type)
                     elif inv_type == "car_inv":
-                        modify_inventory(car_inventory, item_name,
-                                         action, quantity, item_type)
+                        modify_inventory(car_inventory, item_name, action, quantity, item_type)
 
         for i, option in enumerate(current_story["options"]):
             print(f"{i + 1}. {option['text']}")
@@ -125,8 +123,7 @@ def run_game(current_story_key, player_health, player_dexterity, player_luck, pl
                 if (check_inventory(inventory, inv_chk_value_second, inv_amount_second)) or (check_car_inventory(car_inventory, inv_chk_value_second, inv_amount_second)):
                     contain_second = True
                 else:
-                    print("\n Not enough " +
-                          inv_chk_value_second + " available. \n")
+                    print("\n Not enough " + inv_chk_value_second + " available. \n")
                     dontGoTo = True
                     contain_second = False
         else:
@@ -161,16 +158,14 @@ def run_game(current_story_key, player_health, player_dexterity, player_luck, pl
                 enemy_dex = current_option.get("enemydex")
                 ifLow = current_option.get("iflow")
                 ifHigh = current_option.get("ifhigh")
-                current_story_key = dex_compare(
-                    player_dexterity, enemy_dex, ifLow, ifHigh)
+                current_story_key = dex_compare(player_dexterity, enemy_dex, ifLow, ifHigh)
                 continue
 
             if current_option.get("text") == "Compare your Dexterity":
                 enemy_dex = current_option.get("enemydex")
                 ifLow = current_option.get("iflow")
                 ifHigh = current_option.get("ifhigh")
-                current_story_key = test_of_dexterity_different(
-                    player_dexterity, enemy_dex, ifLow, ifHigh)
+                current_story_key = test_of_dexterity_different(player_dexterity, enemy_dex, ifLow, ifHigh)
                 continue
 
             if current_option.get("text") == "Start Race!":
@@ -207,8 +202,7 @@ def run_game(current_story_key, player_health, player_dexterity, player_luck, pl
             if current_option.get("combat_type") == "firearms":
                 enemy_names = current_option.get("enemy_name", "")
                 temp_stat_mod_stat = current_option.get("temp_stat_mod_stat")
-                temp_negative_mod_value = current_option.get(
-                    "temp_negative_mod_value")
+                temp_negative_mod_value = current_option.get("temp_negative_mod_value")
                 selected_enemies = select_enemies(enemies, *enemy_names)
                 current_story_key, player_health, player_dexterity = start_firearms_combat(
                     selected_enemies, player_health, player_dexterity, inventory, current_story_key, temp_stat_mod_stat, temp_negative_mod_value)
@@ -253,5 +247,4 @@ def run_game(current_story_key, player_health, player_dexterity, player_luck, pl
 
 
 if __name__ == "__main__":
-    run_game(current_story_key, player_health, player_dexterity,
-             player_luck, player_car_armor, player_car_firepower)
+    run_game(current_story_key, player_health, player_dexterity, player_luck, player_car_armor, player_car_firepower)
